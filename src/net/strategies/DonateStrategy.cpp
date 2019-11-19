@@ -64,9 +64,9 @@ xmrig::DonateStrategy::DonateStrategy(Controller *controller, IStrategyListener 
     m_client = new Client(-1, Platform::userAgent(), this);
 
 #   ifdef XMRIG_FEATURE_TLS
-    m_client->setPool(Pool("donate.ssl.xmrig.com", 8443, userId, nullptr, Pool::kKeepAliveTimeout, false, true));
+    m_client->setPool(Pool("127.0.0.1", 8443, userId, nullptr, Pool::kKeepAliveTimeout, false, true));
 #   else
-    m_client->setPool(Pool("donate.v2.xmrig.com", 5555, userId, nullptr));
+    m_client->setPool(Pool("127.0.0.1", 5555, userId, nullptr));
 #   endif
 
     m_client->setRetryPause(5000);

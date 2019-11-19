@@ -74,10 +74,6 @@ bool xmrig::TlsContext::load(const TlsConfig &config)
     SSL_CTX_set_options(m_ctx, SSL_OP_NO_SSLv2 | SSL_OP_NO_SSLv3);
     SSL_CTX_set_options(m_ctx, SSL_OP_CIPHER_SERVER_PREFERENCE);
 
-#   if OPENSSL_VERSION_NUMBER >= 0x1010100fL
-    SSL_CTX_set_max_early_data(m_ctx, 0);
-#   endif
-
     setProtocols(config.protocols());
 
     return setCiphers(config.ciphers()) && setCipherSuites(config.cipherSuites()) && setDH(config.dhparam());
@@ -101,12 +97,6 @@ bool xmrig::TlsContext::setCipherSuites(const char *ciphersuites)
     if (ciphersuites == nullptr) {
         return true;
     }
-
-#   if OPENSSL_VERSION_NUMBER >= 0x1010100fL
-    if (SSL_CTX_set_ciphersuites(m_ctx, ciphersuites) == 1) {
-        return true;
-    }
-#   endif
 
     LOG_ERR("SSL_CTX_set_ciphersuites(\"%s\") failed.", ciphersuites);
 
